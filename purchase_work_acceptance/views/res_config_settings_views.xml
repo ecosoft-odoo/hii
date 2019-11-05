@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_purchase" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.purchase</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('app_settings_block')]" position="inside">
+                <h2>Work Acceptance</h2>
+                <div class="row mt16 o_settings_container" name="purchase_setting_container">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="group_work_acceptance"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="group_work_acceptance"/>
+                            <div class="text-muted">
+                                Manage your purchase by work acceptance
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('group_work_acceptance' ,'=', False)]}">
+                                <div class="mt16">
+                                    <field name="group_work_acceptance_enforce" class="oe_inline"/>
+                                    <label for="group_work_acceptance_enforce" class="o_light_label"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
