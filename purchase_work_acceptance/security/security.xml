@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_work_acceptance" model="res.groups">
+        <field name="name">Work Acceptance Process</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_work_acceptance_enforce" model="res.groups">
+        <field name="name">Enforce Work Acceptance Process</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+</odoo>
