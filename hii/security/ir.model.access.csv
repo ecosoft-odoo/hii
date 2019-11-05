@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_strategy_user,strategy,model_strategy,,1,0,0,0
+access_strategy_manager,strategy,model_strategy,base.group_no_one,1,1,1,1
+access_costcenter_user,costcenter,model_costcenter,,1,0,0,0
+access_costcenter_manager,costcenter,model_costcenter,base.group_no_one,1,1,1,1
+access_profitcenter_user,profitcenter,model_profitcenter,,1,0,0,0
+access_profitcenter_manager,profitcenter,model_profitcenter,base.group_no_one,1,1,1,1
