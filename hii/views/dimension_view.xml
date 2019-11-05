@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dimension menu-->
+    <menuitem id="menu_extra_dimension"
+              parent="base.menu_administration"
+              name="Extra Dimension"
+              groups="base.group_no_one"
+              sequence="100"/>
+
+    <!-- Strategy views -->
+    <record id="view_strategy_form" model="ir.ui.view">
+      <field name="model">strategy</field>
+      <field name="arch" type="xml">
+          <form>
+              <sheet>
+                  <group>
+                      <div class="oe_title">
+                          <label for="name"/>
+                          <h1>
+                              <field name="name"/>
+                          </h1>
+                      </div>
+                  </group>
+                  <group name="main_group">
+                      <group name="main_group1">
+                          <field name="code"/>
+                      </group>
+                      <group name="main_group2">
+                          <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                      </group>
+                  </group>
+                  <notebook name="notebook">
+                  </notebook>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_strategy_tree" model="ir.ui.view">
+      <field name="model">strategy</field>
+      <field name="arch" type="xml">
+          <tree>
+              <field name="code"/>
+              <field name="name"/>
+              <field name="company_id" groups="base.group_multi_company"/>
+          </tree>
+      </field>
+    </record>
+
+    <record id="view_strategy_search" model="ir.ui.view">
+      <field name="model">strategy</field>
+      <field name="arch" type="xml">
+          <search>
+              <field name="name" string="Name/Code" filter_domain="['|', ('code','ilike', self), ('name','ilike',self)]"/>
+          </search>
+      </field>
+    </record>
+
+    <record id="action_strategy" model="ir.actions.act_window">
+      <field name="name">Strategy</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">strategy</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="view_strategy_search"/>
+      <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+              Click to add a new strategy.
+          </p>
+          <p>
+              strategies provide an extra dimension
+          </p>
+      </field>
+    </record>
+
+    <menuitem id="menu_strategy"
+            parent="menu_extra_dimension"
+            action="action_strategy"
+            groups="base.group_no_one"
+            sequence="10"/>
+
+    <!-- Cost Center views -->
+    <record id="view_costcenter_form" model="ir.ui.view">
+        <field name="model">costcenter</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="main_group">
+                        <group name="main_group1">
+                            <field name="code"/>
+                        </group>
+                        <group name="main_group2">
+                            <field name="strategy_id"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook name="notebook">
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_costcenter_tree" model="ir.ui.view">
+        <field name="model">costcenter</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_costcenter_search" model="ir.ui.view">
+        <field name="model">costcenter</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Name/Code" filter_domain="['|', ('code','ilike', self), ('name','ilike',self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_costcenter" model="ir.actions.act_window">
+        <field name="name">Cost Centers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">costcenter</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_costcenter_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new cost center.
+            </p>
+            <p>
+                Cost centers provide an extra dimension
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_costcenter"
+              parent="menu_extra_dimension"
+              action="action_costcenter"
+              groups="base.group_no_one"
+              sequence="20"/>
+
+    <!-- Profitcenter views -->
+    <record id="view_profitcenter_form" model="ir.ui.view">
+      <field name="model">profitcenter</field>
+      <field name="arch" type="xml">
+          <form>
+              <sheet>
+                  <group>
+                      <div class="oe_title">
+                          <label for="name"/>
+                          <h1>
+                              <field name="name"/>
+                          </h1>
+                      </div>
+                  </group>
+                  <group name="main_group">
+                      <group name="main_group1">
+                          <field name="code"/>
+                      </group>
+                      <group name="main_group2">
+                          <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                      </group>
+                  </group>
+                  <notebook name="notebook">
+                  </notebook>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_profitcenter_tree" model="ir.ui.view">
+      <field name="model">profitcenter</field>
+      <field name="arch" type="xml">
+          <tree>
+              <field name="code"/>
+              <field name="name"/>
+              <field name="company_id" groups="base.group_multi_company"/>
+          </tree>
+      </field>
+    </record>
+
+    <record id="view_profitcenter_search" model="ir.ui.view">
+      <field name="model">profitcenter</field>
+      <field name="arch" type="xml">
+          <search>
+              <field name="name" string="Name/Code" filter_domain="['|', ('code','ilike', self), ('name','ilike',self)]"/>
+          </search>
+      </field>
+    </record>
+
+    <record id="action_profitcenter" model="ir.actions.act_window">
+      <field name="name">Profit Centers</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">profitcenter</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="view_profitcenter_search"/>
+      <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+              Click to add a new profit center.
+          </p>
+          <p>
+              Profit centers provide an extra dimension
+          </p>
+      </field>
+    </record>
+
+    <menuitem id="menu_profitcenter"
+            parent="menu_extra_dimension"
+            action="action_profitcenter"
+            groups="base.group_no_one"
+            sequence="30"/>
+</odoo>
