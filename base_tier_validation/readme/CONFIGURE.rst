@@ -6,5 +6,5 @@ To configure this module, you need to:
 
 Note :
 
-#. If you check "Comment", you can add comment on reviews table.
+#. If you check "Comment", you can add comment on reviews table by comment wizard.
 #. If you check "Approve by sequence", you can approve by sequence follow reviews table.

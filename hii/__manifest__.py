@@ -20,6 +20,7 @@
         'budget_control_expense_tag_dimension',
         'budget_control_purchase_tag_dimension',
         'budget_control_tier_validation',
+        'purchase_request'
     ],
     "data": [
         'budget_dimension/security/ir.model.access.csv',
