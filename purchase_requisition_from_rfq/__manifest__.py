@@ -14,6 +14,7 @@
         'purchase_requisition',
     ],
     'data': [
+        'views/purchase_requisition_view.xml',
         'views/purchase_view.xml',
     ],
     'installable': True,

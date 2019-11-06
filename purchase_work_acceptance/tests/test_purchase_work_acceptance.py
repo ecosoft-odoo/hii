@@ -30,7 +30,9 @@ class TestPurchaseWorkAcceptance(TransactionCase):
                 (0, 0, {'product_id': self.service_product.id,
                         'name': self.service_product.name,
                         'price_unit': self.service_product.standard_price,
-                        'product_qty': 3.0})]
+                        'product_qty': 3.0,
+                        'product_uom': self.service_product.uom_id.id,
+                        })]
         })
         work_acceptance.button_accept()
         self.assertEqual(work_acceptance.state, 'accept')
@@ -58,23 +60,17 @@ class TestPurchaseWorkAcceptance(TransactionCase):
         work_acceptance = Form(self.env['work.acceptance'].with_context(ctx))
         self.assertEqual(work_acceptance.state, 'draft')
 
-    def test_02_flow(self):
+    def test_02_flow_product(self):
         # Create Purchase Order
         purchase_order = self.env['purchase.order'].create({
             'partner_id': self.res_partner.id,
             'order_line': [
-                (0, 0, {'product_id': self.service_product.id,
-                        'product_uom': self.service_product.uom_id.id,
-                        'name': self.service_product.name,
-                        'price_unit': self.service_product.standard_price,
-                        'date_planned': self.date_now,
-                        'product_qty': 42.0}),
                 (0, 0, {'product_id': self.product_product.id,
                         'product_uom': self.product_product.uom_id.id,
                         'name': self.product_product.name,
                         'price_unit': self.product_product.standard_price,
                         'date_planned': self.date_now,
-                        'product_qty': 12.0})]
+                        'product_qty': 42.0})]
         })
         purchase_order.button_confirm()
         self.assertEqual(purchase_order.state, 'purchase')
@@ -92,12 +88,8 @@ class TestPurchaseWorkAcceptance(TransactionCase):
                         'product_id': purchase_order.order_line[0].product_id.id,
                         'name': purchase_order.order_line[0].name,
                         'price_unit': purchase_order.order_line[0].price_unit,
-                        'product_qty': 42.0}),
-                (0, 0, {'purchase_line_id': purchase_order.order_line[1].id,
-                        'product_id': purchase_order.order_line[1].product_id.id,
-                        'name': purchase_order.order_line[1].name,
-                        'price_unit': purchase_order.order_line[1].price_unit,
-                        'product_qty': 12.0})]
+                        'product_uom': purchase_order.order_line[0].product_uom.id,
+                        'product_qty': 42.0})]
         })
         work_acceptance.button_accept()
         self.assertEqual(work_acceptance.state, 'accept')
@@ -111,7 +103,7 @@ class TestPurchaseWorkAcceptance(TransactionCase):
         with self.assertRaises(ValidationError):
             picking.move_ids_without_package[0].quantity_done = 30.0
             picking.button_validate()
-        picking.move_ids_without_package[0].quantity_done = 12.0
+        picking.move_ids_without_package[0].quantity_done = 42.0
         picking.button_validate()
         # Create Vendor Bill
         invoice = self.env['account.invoice'].create({
@@ -126,4 +118,54 @@ class TestPurchaseWorkAcceptance(TransactionCase):
             invoice.invoice_line_ids[0].quantity = 6.0
             invoice.action_invoice_open()
         invoice.invoice_line_ids[0].quantity = 42.0
+        invoice.action_invoice_open()
+
+    def test_03_flow_service(self):
+        # Create Purchase Order
+        purchase_order = self.env['purchase.order'].create({
+            'partner_id': self.res_partner.id,
+            'order_line': [
+                (0, 0, {'product_id': self.service_product.id,
+                        'product_uom': self.service_product.uom_id.id,
+                        'name': self.service_product.name,
+                        'price_unit': self.service_product.standard_price,
+                        'date_planned': self.date_now,
+                        'product_qty': 30.0})]
+        })
+        purchase_order.button_confirm()
+        self.assertEqual(purchase_order.state, 'purchase')
+        # Create Work Acceptance
+        work_acceptance = self.env['work.acceptance'].create({
+            'purchase_id': purchase_order.id,
+            'partner_id': self.res_partner.id,
+            'responsible_id': self.employee.id,
+            'date_due': self.date_now,
+            'date_receive': self.date_now,
+            'company_id': self.env.ref('base.main_company').id,
+            'wa_line_ids': [
+                (0, 0, {'purchase_line_id': purchase_order.order_line[0].id,
+                        'product_id': purchase_order.order_line[0].product_id.id,
+                        'name': purchase_order.order_line[0].name,
+                        'price_unit': purchase_order.order_line[0].price_unit,
+                        'product_uom': purchase_order.order_line[0].product_uom.id,
+                        'product_qty': 30.0})]
+        })
+        work_acceptance.button_accept()
+        self.assertEqual(work_acceptance.state, 'accept')
+        self.assertEqual(purchase_order.wa_count, 1)
+        # Create Vendor Bill
+        purchase_order.with_context(create_bill=True).action_view_invoice()
+        wizard = self.env['select.work.acceptance.wizard'].create({
+            'wa_id': work_acceptance.id,
+        })
+        wizard.button_create_vendor_bill()
+        invoice = self.env['account.invoice'].create({
+            'partner_id': self.res_partner.id,
+            'purchase_id': purchase_order.id,
+            'account_id': self.res_partner.property_account_payable_id.id,
+            'type': 'in_invoice',
+        })
+        invoice.wa_id = work_acceptance
+        invoice.purchase_order_change()
+        self.assertEqual(invoice.state, 'draft')
         invoice.action_invoice_open()

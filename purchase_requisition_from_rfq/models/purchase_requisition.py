@@ -14,6 +14,10 @@ class PurchaseRequisition(models.Model):
     line_ids = fields.One2many(
         default=lambda self: self._get_line(),
     )
+    from_rfq = fields.Boolean(
+        default=False,
+        readonly=True,
+    )
 
     @api.multi
     def _get_line(self):
