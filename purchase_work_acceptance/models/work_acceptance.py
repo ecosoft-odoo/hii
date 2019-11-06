@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
 
 
 class WorkAcceptance(models.Model):
@@ -33,6 +32,10 @@ class WorkAcceptance(models.Model):
     date_accept = fields.Datetime(
         string='Accepted Date',
         readonly=True,
+    )
+    invoice_ref = fields.Char(
+        string='Invoice Reference',
+        copy=False,
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -151,7 +154,7 @@ class WorkAcceptanceLine(models.Model):
     )
     price_unit = fields.Float(
         string='Unit Price',
-        readonly=True,
+        required=True,
     )
     price_subtotal = fields.Monetary(
         compute='_compute_amount',

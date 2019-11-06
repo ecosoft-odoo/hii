@@ -27,29 +27,48 @@ class Picking(models.Model):
     @api.multi
     def button_validate(self):
         if self.wa_id:
-            WALines = self.env['work.acceptance.line']
-            wa_products = WALines.search([('wa_id', '=', self.wa_id.id)])\
-                .mapped('product_id')\
-                .filtered(lambda product: product.type != 'service')
-            Moves = self.env['stock.move']
-            move_products = Moves.search(
-                [('picking_id', '=', self.id)]).mapped('product_id')
-            if len(move_products) != len(wa_products):
+            wa_line = {}
+            for line in self.wa_id.wa_line_ids:
+                qty = line.product_uom._compute_quantity(
+                    line.product_qty, line.product_id.uom_id)
+                if qty > 0.0 and line.product_id.type != 'service':
+                    if line.product_id.id in wa_line.keys():
+                        qty_old = wa_line[line.product_id.id]
+                        wa_line[line.product_id.id] = qty_old + qty
+                    else:
+                        wa_line[line.product_id.id] = qty
+            move_line = {}
+            for move in self.move_ids_without_package:
+                qty = move.product_uom._compute_quantity(
+                    move.quantity_done, line.product_id.uom_id)
+                if qty > 0.0:
+                    if move.product_id.id in move_line.keys():
+                        qty_old = move_line[move.product_id.id]
+                        move_line[move.product_id.id] = qty_old + qty
+                    else:
+                        move_line[move.product_id.id] = qty
+            if wa_line != move_line:
                 raise ValidationError(_('You cannot validate a transfer if done'
                                       ' quantity not equal accepted quantity'))
-            for product in move_products:
-                wa_product = WALines.search([
-                    ('wa_id', '=', self.wa_id.id), ('product_id', '=', product.id)])
-                move_product = Moves.search([
-                    ('picking_id', '=', self.id), ('product_id', '=', product.id)])
-                if sum(wa_product.mapped('product_qty')) != \
-                        sum(move_product.mapped('quantity_done')):
-                    raise ValidationError(_('You cannot validate a transfer if done'
-                                          ' quantity not equal accepted quantity'))
         return super(Picking, self).button_validate()
 
     @api.onchange('wa_id')
     def _onchange_wa_id(self):
         if self.wa_id:
+            wa_line = {}
+            for line in self.wa_id.wa_line_ids:
+                qty = line.product_uom._compute_quantity(
+                    line.product_qty, line.product_id.uom_id)
+                if line.product_id.id in wa_line.keys():
+                    qty_old = wa_line[line.product_id.id]
+                    wa_line[line.product_id.id] = qty_old + qty
+                else:
+                    wa_line[line.product_id.id] = qty
             for move in self.move_ids_without_package:
-                move.quantity_done = move.product_uom_qty
+                if move.product_id.id in wa_line.keys():
+                    qty = wa_line[move.product_id.id]
+                    if move.product_uom_qty < qty:
+                        move.quantity_done = move.product_uom_qty
+                        wa_line[line.product_id.id] = qty - move.product_uom_qty
+                    else:
+                        move.quantity_done = qty

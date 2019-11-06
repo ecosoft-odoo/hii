@@ -39,8 +39,16 @@ class TierValidation(models.AbstractModel):
         compute='_compute_has_comment',
     )
     approve_sequence = fields.Boolean(
-        related='review_ids.approve_sequence',
+        compute='_compute_approve_sequence',
     )
+
+    @api.multi
+    def _compute_approve_sequence(self):
+        for rec in self:
+            approve_sequence = rec.review_ids.filtered(
+                lambda r: r.status in ('pending', 'rejected') and
+                (self.env.user in r.reviewer_ids)).mapped('approve_sequence')
+            rec.approve_sequence = True in approve_sequence
 
     @api.multi
     def _compute_has_comment(self):
