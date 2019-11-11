@@ -48,8 +48,7 @@ class PurchaseOrder(models.Model):
                 'product_uom': line.product_uom.id,
                 'product_id': line.product_id.id,
                 'price_unit': line.price_unit,
-                'product_qty': max(line.product_qty - line.qty_invoiced,
-                                   line.product_qty - line.qty_received,),
+                'product_qty': line._get_product_qty(),
                 }) for line in self.order_line],
         }
         if len(self.wa_ids) > 1 and not create_wa:
@@ -90,3 +89,8 @@ class PurchaseOrderLine(models.Model):
         string="WA Lines",
         readonly=True,
     )
+
+    def _get_product_qty(self):
+        if self.product_id.type == 'service':
+            return self.product_qty - self.qty_invoiced
+        return self.product_qty - self.qty_received

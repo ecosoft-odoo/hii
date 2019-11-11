@@ -9,7 +9,7 @@ class Picking(models.Model):
     _inherit = "stock.picking"
 
     require_wa = fields.Boolean(
-        default=lambda self: self._get_require_wa(),
+        compute='_compute_require_wa',
     )
     wa_id = fields.Many2one(
         comodel_name='work.acceptance',
@@ -20,8 +20,9 @@ class Picking(models.Model):
             ('purchase_id', '=', self._context.get('active_id'))],
     )
 
-    def _get_require_wa(self):
-        return self.env.user.has_group(
+    @api.multi
+    def _compute_require_wa(self):
+        self.require_wa = self.env.user.has_group(
             'purchase_work_acceptance.group_work_acceptance_enforce')
 
     @api.multi

@@ -17,6 +17,7 @@ class PurchaseRequisition(models.Model):
     from_rfq = fields.Boolean(
         default=False,
         readonly=True,
+        help="True, if this purchase agreement is created from RFQs",
     )
 
     @api.multi
@@ -34,7 +35,7 @@ class PurchaseRequisition(models.Model):
                 if order.state != 'draft':
                     raise ValidationError(_('The purchase agreement cannot be '
                                             'processed because the order is '
-                                            'not draft!'))
+                                            'not in draft!'))
                 # Test combination of product and quantity
                 po_dict[order.id] = [(line.product_id.id, line.product_qty)
                                      for line in order.order_line]
@@ -51,8 +52,3 @@ class PurchaseRequisition(models.Model):
                             'product_uom_id': line.product_uom.id,
                             'product_qty': line.product_qty,
                             }) for line in order.order_line]
-
-    @api.multi
-    def write(self, vals):
-        for rec in self:
-            super(PurchaseRequisition, rec).write(vals)

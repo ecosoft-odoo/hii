@@ -118,6 +118,7 @@ class WorkAcceptance(models.Model):
 
     @api.multi
     def button_accept(self, force=False):
+        self._unlink_zero_quantity()
         self.write({'state': 'accept', 'date_accept': fields.Datetime.now()})
 
     @api.multi
@@ -127,6 +128,11 @@ class WorkAcceptance(models.Model):
     @api.multi
     def button_cancel(self):
         self.write({'state': 'cancel'})
+
+    def _unlink_zero_quantity(self):
+        wa_line_zero_quantity = self.wa_line_ids.filtered(
+            lambda l: l.product_qty == 0.0)
+        wa_line_zero_quantity.unlink()
 
 
 class WorkAcceptanceLine(models.Model):
