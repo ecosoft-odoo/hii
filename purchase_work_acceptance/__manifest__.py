@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Work Acceptance',
+    'name': 'Purchase Work Acceptance',
     'version': '12.0.1.0.0',
     'category': 'Purchase Management',
     'author': 'Ecosoft, '
@@ -28,4 +28,5 @@
         'ps-tubtim',
     ],
     'installable': True,
+    'development_status': 'Alpha',
 }

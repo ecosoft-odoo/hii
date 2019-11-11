@@ -9,7 +9,7 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     require_wa = fields.Boolean(
-        default=lambda self: self._get_require_wa(),
+        compute='_compute_require_wa',
     )
     wa_id = fields.Many2one(
         comodel_name='work.acceptance',
@@ -22,8 +22,9 @@ class AccountInvoice(models.Model):
              'according to the quantity and unit price of the work acceptance.',
     )
 
-    def _get_require_wa(self):
-        return self.env.user.has_group(
+    @api.multi
+    def _compute_require_wa(self):
+        self.require_wa = self.env.user.has_group(
             'purchase_work_acceptance.group_work_acceptance_enforce')
 
     def _prepare_invoice_line_from_po_line(self, line):
@@ -70,4 +71,10 @@ class AccountInvoice(models.Model):
                 if wa_line != invoice_line:
                     raise ValidationError(_('You cannot validate a bill if '
                                           'Quantity not equal accepted quantity'))
+            rec._unlink_zero_quantity()
         return super().action_invoice_open()
+
+    def _unlink_zero_quantity(self):
+        inv_line_zero_quantity = self.invoice_line_ids.filtered(
+            lambda l: l.quantity == 0.0)
+        inv_line_zero_quantity.unlink()

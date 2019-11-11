@@ -18,4 +18,7 @@
         'views/purchase_view.xml',
     ],
     'installable': True,
+    'maintainers': ['ps-tubtim'],
+    'development_status': 'Alpha',
+    'post_load': 'post_load_hook',
 }

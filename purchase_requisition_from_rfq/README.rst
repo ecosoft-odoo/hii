@@ -25,7 +25,8 @@ Purchase Agreement from RFQs
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module helps to create Purchase Agreement from RFQs.
+Normally, purchase agreement is created on its own, and is used to create new RFQs.
+This module add the new and reversed way, allowing RFQs to create purchase agreement.
 
 **Table of contents**
 
@@ -43,6 +44,11 @@ Usage
 #. Confirm and Validate the purchase agreement
 #. Click smart button RFQs/Orders and Confirm order on a RFQ
 #. Return to Purchase Agreement and Click Close
+
+Note
+
+* Agreement from rfq: If you confirm order, another RFQs will cancel automatically and fill Vendor, Unit Price on Agreement follow winning Purchase Order.
+* Normal Agreement: Normal Process
 
 Bug Tracker
 ===========

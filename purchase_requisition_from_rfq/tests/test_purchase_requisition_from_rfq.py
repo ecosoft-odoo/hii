@@ -117,7 +117,8 @@ class TestPurchaseRequisitionFromRfq(TransactionCase):
                         'product_qty': 20.0})]})
         # Create agreement
         ctx = {'active_model': 'purchase.order',
-               'active_ids': [PO_1.id, PO_2.id]}
+               'active_ids': [PO_1.id, PO_2.id],
+               'default_from_rfq': True}
         self.PurchaseRequisition.with_context(ctx).create({})
 
         # Before confirm order
