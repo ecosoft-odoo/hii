@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+    <!-- เจ้าหน้าที ่ฝ่ายอำนวยการ -->
+
+    <record id="pr_staff_administer_1" model="tier.definition">
+        <field name="name">หัวหน้าฝ่ายอำนวยการ</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">40</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'เจ้าหน้าที่'</field>
+    </record>
+
+    <record id="pr_staff_administer_2" model="tier.definition">
+        <field name="name">ผู้อำนวยการฝ่ายอำนวยการ</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">30</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'เจ้าหน้าที่'</field>
+    </record>
+
+    <record id="pr_staff_administer_3" model="tier.definition">
+        <field name="name">รอง ผสสน.</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">20</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.parent_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">sum(rec.line_ids.mapped('estimated_cost') ) > 500000 and rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'เจ้าหน้าที่'</field>
+    </record>
+
+    <record id="pr_staff_administer_4" model="tier.definition">
+        <field name="name">ผสสน.</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">10</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.parent_id.parent_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">sum(rec.line_ids.mapped('estimated_cost') ) > 1000000 and rec.request_employee_id.job_id.name == 'เจ้าหน้าที่'</field>
+    </record>
+
+    <!-- หัวหน้า ฝ่ายอำนวยการ -->
+
+    <record id="pr_head_administer_1" model="tier.definition">
+        <field name="name">ผู้อำนวยการฝ่ายอำนวยการ</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">30</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'หัวหน้าฝ่าย'</field>
+    </record>
+
+    <record id="pr_head_administer_2" model="tier.definition">
+        <field name="name">รอง ผสสน.</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">20</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">sum(rec.line_ids.mapped('estimated_cost') ) > 500000 and rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'หัวหน้าฝ่าย'</field>
+    </record>
+
+    <record id="pr_head_administer_3" model="tier.definition">
+        <field name="name">ผสสน.</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">10</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.parent_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">sum(rec.line_ids.mapped('estimated_cost') ) > 1000000 and rec.request_employee_id.job_id.name == 'หัวหน้าฝ่าย'</field>
+    </record>
+
+    <!-- ผู้อำนวยการ ฝ่ายอำนวยการ -->
+
+    <record id="pr_manager_administer_1" model="tier.definition">
+        <field name="name">ผู้อำนวยการฝ่ายอำนวยการ</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">30</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'หัวหน้าฝ่าย'</field>
+    </record>
+
+    <record id="pr_manager_administer_2" model="tier.definition">
+        <field name="name">รอง ผสสน.</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">20</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">sum(rec.line_ids.mapped('estimated_cost') ) > 500000 and rec.request_employee_id.department_id.name == 'ฝ่ายอำนวยการ' and rec.request_employee_id.job_id.name == 'หัวหน้าฝ่าย'</field>
+    </record>
+
+    <record id="pr_manager_administer_3" model="tier.definition">
+        <field name="name">ผสสน.</field>
+        <field name="model_id" ref="model_purchase_request"/>
+        <field name="sequence">10</field>
+        <field name="has_comment">False</field>
+        <field name="approve_sequence">False</field>
+        <field name="review_type">expression</field>
+        <field name="reviewer_expression">rec.request_employee_id.parent_id.parent_id.user_id or rec.env.user</field>
+        <field name="definition_type">formula</field>
+        <field name="python_code">sum(rec.line_ids.mapped('estimated_cost') ) > 1000000 and rec.request_employee_id.job_id.name == 'หัวหน้าฝ่าย'</field>
+    </record>
+
+</odoo>

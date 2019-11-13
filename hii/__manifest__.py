@@ -20,12 +20,17 @@
         'budget_control_expense_tag_dimension',
         'budget_control_purchase_tag_dimension',
         'budget_control_tier_validation',
-        'purchase_request'
+        'hr',
+        'base_tier_validation_formula',
+        'purchase_request_tier_validation',
     ],
     "data": [
         'budget_dimension/security/ir.model.access.csv',
         'budget_dimension/security/dimension_security.xml',
         'budget_dimension/views/dimension_view.xml',
+        'hr/data/hr_data.xml',
+        'purchase_request/data/purchase_request_tier_definition.xml',
+        'purchase_request/views/purchase_request_view.xml',
     ],
     'installable': True,
 }

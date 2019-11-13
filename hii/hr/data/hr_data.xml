@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+    <!--Department-->
+
+    <record id="dep_innovation" model="hr.department">
+        <field name="name">ฝ่ายนวัตกรรมสารสนเทศทรัพยากรน้ำ</field>
+    </record>
+
+    <record id="dep_technology_digital" model="hr.department">
+        <field name="name">ฝ่ายพัฒนาเทคโนโลยีและดิจิทัล</field>
+    </record>
+
+    <record id="dep_management" model="hr.department">
+        <field name="name">ฝ่ายจัดการน้ำชุมชน</field>
+    </record>
+
+    <record id="dep_technology_information" model="hr.department">
+        <field name="name">ฝ่ายส่งเสริมการใช้เทคโนโลยีและสารสนเทศทรัพยากรน้ำ</field>
+    </record>
+
+    <record id="dep_project" model="hr.department">
+        <field name="name">ฝ่ายโครงการพิเศษ ประสานความร่วมมือ และสื่อสารองค์กร</field>
+    </record>
+
+    <record id="dep_policy_strategy" model="hr.department">
+        <field name="name">ฝ่ายนโยบายและยุทธศาสตร์</field>
+    </record>
+
+    <record id="dep_administer" model="hr.department">
+        <field name="name">ฝ่ายอำนวยการ</field>
+    </record>
+
+    <!--Jobs-->
+
+    <record id="job_staff" model="hr.job">
+        <field name="name">เจ้าหน้าที่</field>
+    </record>
+
+    <record id="job_head" model="hr.job">
+        <field name="name">หัวหน้าฝ่าย</field>
+    </record>
+
+    <record id="job_manager" model="hr.job">
+        <field name="name">ผู้อำนวยการฝ่าย</field>
+    </record>
+
+    <record id="job_deputy_director" model="hr.job">
+        <field name="name">รองผู้อำนวยการ สสน.</field>
+    </record>
+
+    <record id="job_director" model="hr.job">
+        <field name="name">ผู้อำนวยการ สสน.</field>
+    </record>
+
+</odoo>

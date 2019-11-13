@@ -1,3 +1,5 @@
+# Copyright 2019 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import purchase_request_line_make_purchase_order
+from . import purchase_request

@@ -11,7 +11,3 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
     def onchange_product_id(self):
         if not self.name:
             super().onchange_product_id()
-        else:
-            self.keep_description = True
-            if self.product_qty < 1.0:
-                self.product_qty = 1.0
