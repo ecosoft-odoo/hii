@@ -10,7 +10,6 @@
     'license': 'AGPL-3',
     'website': 'https://github.com/OCA/purchase-workflow',
     'depends': [
-        'hr',
         'purchase_stock',
     ],
     'data': [

@@ -9,7 +9,7 @@ class SelectWorkAcceptanceWizard(models.TransientModel):
     _description = 'Select Work Acceptance Wizard'
 
     require_wa = fields.Boolean(
-        compute='_compute_require_wa',
+        default=lambda self: self._get_require_wa(),
     )
     wa_id = fields.Many2one(
         comodel_name='work.acceptance',
@@ -19,10 +19,9 @@ class SelectWorkAcceptanceWizard(models.TransientModel):
             ('purchase_id', '=', self._context.get('active_id'))]
     )
 
-    @api.multi
-    def _compute_require_wa(self):
-        self.require_wa = self.env.user.has_group(
-            'purchase_work_acceptance.group_work_acceptance_enforce')
+    def _get_require_wa(self):
+        return self.env.user.has_group(
+            'purchase_work_acceptance.group_enforce_wa_on_invoice')
 
     @api.multi
     def button_create_vendor_bill(self):

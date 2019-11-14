@@ -12,17 +12,26 @@
                 <div class="row mt16 o_settings_container" name="purchase_setting_container">
                     <div class="col-12 col-lg-6 o_setting_box">
                         <div class="o_setting_left_pane">
-                            <field name="group_work_acceptance"/>
+                            <field name="group_enable_wa_on_po"/>
                         </div>
                         <div class="o_setting_right_pane">
-                            <label for="group_work_acceptance"/>
-                            <div class="text-muted">
-                                Manage your purchase by work acceptance
-                            </div>
-                            <div class="content-group" attrs="{'invisible': [('group_work_acceptance' ,'=', False)]}">
+                            <label for="group_enable_wa_on_po"/>
+                            <div class="content-group" attrs="{'invisible': [('group_enable_wa_on_po' ,'=', False)]}">
                                 <div class="mt16">
-                                    <field name="group_work_acceptance_enforce" class="oe_inline"/>
-                                    <label for="group_work_acceptance_enforce" class="o_light_label"/>
+                                    <field name="group_enable_wa_on_in" class="oe_inline"/>
+                                    <label for="group_enable_wa_on_in" class="o_light_label"/>
+                                </div>
+                                <div class="mt4 ml32" attrs="{'invisible': [('group_enable_wa_on_in' ,'=', False)]}">
+                                    <field name="group_enforce_wa_on_in" class="oe_inline"/>
+                                    <label for="group_enforce_wa_on_in" class="o_light_label"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="group_enable_wa_on_invoice" class="oe_inline"/>
+                                    <label for="group_enable_wa_on_invoice" class="o_light_label"/>
+                                </div>
+                                <div class="mt4 ml32" attrs="{'invisible': [('group_enable_wa_on_invoice' ,'=', False)]}">
+                                    <field name="group_enforce_wa_on_invoice" class="oe_inline"/>
+                                    <label for="group_enforce_wa_on_invoice" class="o_light_label"/>
                                 </div>
                             </div>
                         </div>

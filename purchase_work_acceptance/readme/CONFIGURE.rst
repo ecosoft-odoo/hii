@@ -1,11 +1,30 @@
-** Show WA Reference fields on Purchase Order, Receipt, Vendor Bill **
+** Show Button Create WA on Purchase Order **
 
 #. Go to Purchase > Configuration > Settings
-#. Check 'Enable work acceptance process'
+#. Check 'Enable WA on Purchase Order'
 
-** Control Receipt, Vendor Bill by Work Acceptance**
+** Show WA Reference fields on Receipt **
 
 #. Go to Purchase > Configuration > Settings
-#. Check 'Enforce work acceptance on every purchase'
+#. Check 'Enable WA on Goods Receipt'
 
-Note: You can check 'Enforce work acceptance on every purchase' after checked 'Enable work acceptance process'
+** Control Receipt by Work Acceptance**
+
+#. Go to Purchase > Configuration > Settings
+#. Check 'Enforce WA on Goods Receipt'
+
+** Show WA Reference fields on Vendor Bill **
+
+#. Go to Purchase > Configuration > Settings
+#. Check 'Enable WA on Vendor Bill'
+
+** Control Vendor Bill by Work Acceptance**
+
+#. Go to Purchase > Configuration > Settings
+#. Check 'Enforce WA on Vendor Bill'
+
+Note:
+
+* You can check 'Enable WA on Goods Receipt' and 'Enable WA on Vendor Bill' after checked 'Enable WA on Purchase Order'
+* You can check 'Enforce WA on Goods Receipt' after checked 'Enable WA on Goods Receipt'
+* You can check 'Enforce WA on Vendor Bill' after checked 'Enable WA on Vendor Bill'

@@ -7,11 +7,23 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    group_work_acceptance = fields.Boolean(
-        string="Enable work acceptance process",
-        implied_group='purchase_work_acceptance.group_work_acceptance',
+    group_enable_wa_on_po = fields.Boolean(
+        string="Enable WA on Purchase Order",
+        implied_group='purchase_work_acceptance.group_enable_wa_on_po',
     )
-    group_work_acceptance_enforce = fields.Boolean(
-        string="Enforce work acceptance on every purchase",
-        implied_group='purchase_work_acceptance.group_work_acceptance_enforce',
+    group_enable_wa_on_in = fields.Boolean(
+        string="Enable WA on Goods Receipt",
+        implied_group='purchase_work_acceptance.group_enable_wa_on_in',
+    )
+    group_enforce_wa_on_in = fields.Boolean(
+        string="Enforce WA on Goods Receipt",
+        implied_group='purchase_work_acceptance.group_enforce_wa_on_in',
+    )
+    group_enable_wa_on_invoice = fields.Boolean(
+        string="Enable WA on Vendor Bill",
+        implied_group='purchase_work_acceptance.group_enable_wa_on_invoice',
+    )
+    group_enforce_wa_on_invoice = fields.Boolean(
+        string="Enforce WA on Vendor Bill",
+        implied_group='purchase_work_acceptance.group_enforce_wa_on_invoice',
     )
