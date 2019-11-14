@@ -23,7 +23,7 @@ class PurchaseRequisition(models.Model):
     @api.multi
     def _get_line(self):
         if self._context.get('active_ids'):
-            order = orders = self.env['purchase.order'].browse(
+            orders = self.env['purchase.order'].browse(
                 self._context.get('active_ids', []))
             if orders.mapped('requisition_id'):
                 raise ValidationError(_(
@@ -41,6 +41,7 @@ class PurchaseRequisition(models.Model):
                                      for line in order.order_line]
                 if len(po_dict[order.id]) > len_max:
                     id_max = order.id
+                    len_max = len(po_dict[order.id])
             test_po = po_dict.pop(id_max)
             for test_line in test_po:
                 for key in po_dict.keys():

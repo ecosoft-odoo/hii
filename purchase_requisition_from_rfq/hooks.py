@@ -9,8 +9,7 @@ def post_load_hook():
 
     @api.multi
     def new_write(self, vals):
-        for rec in self:
-            super(PurchaseOrder, rec).write(vals)
+        return super(PurchaseOrder, self).write(vals)
 
     if not hasattr(PurchaseOrder, 'write_original'):
         PurchaseOrder.write_original = PurchaseOrder.write

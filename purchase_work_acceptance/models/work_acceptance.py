@@ -47,8 +47,9 @@ class WorkAcceptance(models.Model):
         states={'draft': [('readonly', False)]},
     )
     responsible_id = fields.Many2one(
-        comodel_name='hr.employee',
+        comodel_name='res.users',
         string='Responsible Person',
+        default=lambda self: self.env.user,
         required=True,
         change_default=True,
         track_visibility='always',
@@ -119,6 +120,11 @@ class WorkAcceptance(models.Model):
     @api.multi
     def button_accept(self, force=False):
         self._unlink_zero_quantity()
+        po_lines = self.purchase_id.order_line
+        for po_line in po_lines:
+            if po_line.product_id.type not in ['product', 'consu']:
+                po_line.qty_received = self.wa_line_ids.filtered(
+                    lambda l: l.purchase_line_id == po_line).product_qty
         self.write({'state': 'accept', 'date_accept': fields.Datetime.now()})
 
     @api.multi
@@ -180,7 +186,7 @@ class WorkAcceptanceLine(models.Model):
         readonly=True,
     )
     responsible_id = fields.Many2one(
-        comodel_name='hr.employee',
+        comodel_name='res.users',
         related='wa_id.responsible_id',
         string='Responsible Person',
         readonly=True,
