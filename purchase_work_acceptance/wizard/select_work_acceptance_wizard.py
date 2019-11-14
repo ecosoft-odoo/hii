@@ -1,7 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class SelectWorkAcceptanceWizard(models.TransientModel):
@@ -25,6 +26,9 @@ class SelectWorkAcceptanceWizard(models.TransientModel):
 
     @api.multi
     def button_create_vendor_bill(self):
+        order = self.env['purchase.order'].browse(self._context.get('active_id'))
+        if any(invoice.wa_id == self.wa_id for invoice in order.invoice_ids):
+            raise ValidationError(_('%s was used in some bill.') % self.wa_id.name)
         action = self.env.ref('account.action_vendor_bill_template')
         result = action.read()[0]
         result['context'] = {
