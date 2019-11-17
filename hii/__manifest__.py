@@ -1,4 +1,4 @@
-# Copyright 2019 Kitti U. <kittiu@ecosoft.co.th>
+# Copyright 2019 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -20,12 +20,15 @@
         'budget_control_expense_tag_dimension',
         'budget_control_purchase_tag_dimension',
         'budget_control_tier_validation',
-        'purchase_request'
+        'purchase_request',
+        'purchase_work_acceptance',
     ],
     "data": [
         'budget_dimension/security/ir.model.access.csv',
         'budget_dimension/security/dimension_security.xml',
         'budget_dimension/views/dimension_view.xml',
+        'purchase_work_acceptance/security/ir.model.access.csv',
+        'purchase_work_acceptance/views/work_acceptance_views.xml',
     ],
     'installable': True,
 }
