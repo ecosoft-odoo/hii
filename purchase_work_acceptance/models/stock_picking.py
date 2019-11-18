@@ -23,7 +23,7 @@ class Picking(models.Model):
     @api.multi
     def _compute_require_wa(self):
         self.require_wa = self.env.user.has_group(
-            'purchase_work_acceptance.group_work_acceptance_enforce')
+            'purchase_work_acceptance.group_enforce_wa_on_in')
 
     @api.multi
     def button_validate(self):
@@ -32,7 +32,7 @@ class Picking(models.Model):
             for line in self.wa_id.wa_line_ids:
                 qty = line.product_uom._compute_quantity(
                     line.product_qty, line.product_id.uom_id)
-                if qty > 0.0 and line.product_id.type != 'service':
+                if qty > 0.0 and line.product_id.type in ['product', 'consu']:
                     if line.product_id.id in wa_line.keys():
                         qty_old = wa_line[line.product_id.id]
                         wa_line[line.product_id.id] = qty_old + qty

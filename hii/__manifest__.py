@@ -1,4 +1,4 @@
-# Copyright 2019 Kitti U. <kittiu@ecosoft.co.th>
+# Copyright 2019 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -23,6 +23,7 @@
         'hr',
         'base_tier_validation_formula',
         'purchase_request_tier_validation',
+        'purchase_work_acceptance',
     ],
     "data": [
         'budget_dimension/security/ir.model.access.csv',
@@ -31,6 +32,8 @@
         'hr/data/hr_data.xml',
         'purchase_request/data/purchase_request_tier_definition.xml',
         'purchase_request/views/purchase_request_view.xml',
+        'purchase_work_acceptance/security/ir.model.access.csv',
+        'purchase_work_acceptance/views/work_acceptance_views.xml',
     ],
     'installable': True,
 }

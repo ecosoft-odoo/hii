@@ -12,7 +12,7 @@ class PurchaseOrder(models.Model):
         string='WA count',
         default=0,
     )
-    wa_ids = fields.Many2many(
+    wa_ids = fields.One2many(
         comodel_name='work.acceptance',
         compute='_compute_wa_ids',
         string='Work Acceptances',
@@ -49,7 +49,7 @@ class PurchaseOrder(models.Model):
                 'product_id': line.product_id.id,
                 'price_unit': line.price_unit,
                 'product_qty': line._get_product_qty(),
-                }) for line in self.order_line],
+                }) for line in self.order_line if line._get_product_qty() != 0],
         }
         if len(self.wa_ids) > 1 and not create_wa:
             result['domain'] = "[('id', 'in', " + str(self.wa_ids.ids) + ")]"
@@ -64,7 +64,7 @@ class PurchaseOrder(models.Model):
     @api.multi
     def action_view_invoice(self):
         if self.env.context.get('create_bill', False) and self.env.user.has_group(
-                'purchase_work_acceptance.group_work_acceptance'):
+                'purchase_work_acceptance.group_enable_wa_on_invoice'):
             wizard = self.env.ref(
                 'purchase_work_acceptance.view_select_work_acceptance_wizard')
             return {
@@ -91,6 +91,6 @@ class PurchaseOrderLine(models.Model):
     )
 
     def _get_product_qty(self):
-        if self.product_id.type == 'service':
-            return self.product_qty - self.qty_invoiced
-        return self.product_qty - self.qty_received
+        return self.product_qty - sum(
+            wa_line.product_qty for wa_line in self.wa_line_ids
+            if wa_line.wa_id.state != 'cancel')

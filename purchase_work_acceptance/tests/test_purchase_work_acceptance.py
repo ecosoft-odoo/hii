@@ -15,7 +15,7 @@ class TestPurchaseWorkAcceptance(TransactionCase):
         # Create Vendor
         self.res_partner = self.env.ref('base.res_partner_3')
         # Create Employee
-        self.employee = self.env.ref('hr.employee_admin')
+        self.employee = self.env.ref('base.user_demo')
         # Create Date
         self.date_now = fields.Datetime.now()
 

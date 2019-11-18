@@ -1,5 +1,7 @@
+# Copyright 2019 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import budget_dimension
 from . import hr
 from . import purchase_request
+from . import purchase_work_acceptance
